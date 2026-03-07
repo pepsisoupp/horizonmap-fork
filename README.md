@@ -44,3 +44,19 @@ An online version of the tool is available [here](https://maseuko.pl/soft/horizo
 ## Author
 
 masuo / izawartka
+
+
+## Mapbox elevation
+
+This build prefers Mapbox Terrain-RGB for elevation when you provide a token. Create a `.env` file in the project root with:
+
+```
+REACT_APP_MAPBOX_ACCESS_TOKEN=your_mapbox_token_here
+```
+
+Then restart the dev server. Without a token, the app falls back to the original Terrarium tiles.
+
+
+## Terrarium spike fix
+
+This build forces Terrarium sampling to stay on exact source pixels: no Mapbox source, no smoothed resize, and tile bounds are snapped to integer pixel edges before combining. This follows the root cause described in the Reddit thread about Mapzen/Terrarium spikes: resampling elevation PNGs with a smoothing filter can create artificial spikes at steep edges.
