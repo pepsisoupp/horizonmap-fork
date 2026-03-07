@@ -7,7 +7,7 @@ export default function ToggleOverlay() {
     return (
         <div className='toggle-overlay'>
             <input type='checkbox' id="toggle-overlay-checkbox" disabled={inProgress !== 0} checked={showOverlay} onChange={() => setShowOverlay(!showOverlay)} />
-            <label htmlFor="toggle-overlay-checkbox">Show overlay</label>
+            <label htmlFor="toggle-overlay-checkbox">오버레이 표시</label>
         </div>
     );
 }

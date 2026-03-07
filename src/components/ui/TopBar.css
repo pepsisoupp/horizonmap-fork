@@ -1,0 +1,68 @@
+.topbar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(17, 24, 39, 0.92);
+  color: #fff;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(10px);
+}
+
+.hamburger {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: #fff;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.topbar-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.topbar-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.topbar-subtitle {
+  font-size: 11px;
+  color: rgba(255,255,255,0.72);
+}

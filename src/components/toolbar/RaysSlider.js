@@ -8,7 +8,7 @@ export default function RaysSlider() {
 
     return (
         <CustomSlider
-            displayName='Rays'
+            displayName='시뮬레이션 광선 개수'
             className='rays-slider'
             value={rays}
             setValue={setRays}

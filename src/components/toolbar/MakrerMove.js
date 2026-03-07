@@ -31,10 +31,10 @@ export default function MarkerMove() {
     return (
         <>
         <button onClick={moveMarker} className='move-marker-here' disabled={inProgress !== 0}>
-            Move the marker here
+            이곳으로 마커 이동
         </button>
         <button onClick={goToMarker} className='go-to-marker'>
-            Go to the marker
+            마커로 이동
         </button>
         </>
     );

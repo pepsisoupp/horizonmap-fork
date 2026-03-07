@@ -14,7 +14,7 @@ export default function HorizonOverlay() {
         return L.imageOverlay(horizonData.dataUrl, [
             [horizonData.circleBounds.north, horizonData.circleBounds.west],
             [horizonData.circleBounds.south, horizonData.circleBounds.east]
-        ]);
+        ], { zIndex: 300, opacity: 1, interactive: false });
     }, [map, horizonData]);
 
     useEffect(() => {

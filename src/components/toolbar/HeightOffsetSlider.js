@@ -8,7 +8,7 @@ export default function HeightOffsetSlider() {
 
     return (
         <CustomSlider
-            displayName='Height offset'
+            displayName='높이 조절'
             className='height-offset-slider'
             suffix=' m'
             value={heightOffset}

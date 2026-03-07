@@ -6,10 +6,19 @@ import RadiusPreview from './RadiusPreview';
 import MainContext from '../../contexts/MainContext';
 import './Map.css';
 import HorizonOverlay from '../horizon/HorizonOverlay';
+import HeatmapOverlay from '../horizon/HeatmapOverlay';
+import MouseElevationTooltip from './MouseElevationTooltip';
+import LosLayer from './LosLayer';
+import LosPanel from '../los/LosPanel';
+import HeatmapLegend from './HeatmapLegend';
+import SearchPinMarker from './SearchPinMarker';
+import HorizonClickMove from './HorizonClickMove';
 
 export default function Map(props) {
     const { setMap } = props;
-    const { showOverlay, horizonData } = useContext(MainContext);
+    const { mode, basemap, showOverlay, showHeatmap, horizonData, heatmapData } = useContext(MainContext);
+
+    const basemapConfig = Constants.basemap.options[basemap] || Constants.basemap.options[Constants.basemap.default];
 
     const displayMap = useMemo(
         () => (
@@ -21,20 +30,31 @@ export default function Map(props) {
                 ref={setMap}
             >
                 <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    key={basemap}
+                    attribution={basemapConfig.attribution}
+                    url={basemapConfig.url}
+                    subdomains={basemapConfig.subdomains}
+                    maxNativeZoom={basemapConfig.maxNativeZoom}
+                    maxZoom={basemapConfig.maxZoom}
                 />
+                { showHeatmap && heatmapData && <HeatmapOverlay />}
                 { showOverlay && horizonData && <HorizonOverlay />}
-                <DraggableMarker />
+                <MouseElevationTooltip />
+                <SearchPinMarker />
+                {mode === 'horizon' && <HorizonClickMove />}
+                {mode === 'horizon' && <DraggableMarker />}
+                {mode === 'los' && <LosLayer />}
             </MapContainer>
         ),
-        [setMap, showOverlay, horizonData]
+        [setMap, basemap, showOverlay, showHeatmap, horizonData, heatmapData, mode, basemapConfig]
     );
 
     return (
         <div className='map'>
             {displayMap}   
-            <RadiusPreview />
+            {mode === 'horizon' && <RadiusPreview />}
+            <HeatmapLegend />
+            <LosPanel />
         </div>
     )
 }

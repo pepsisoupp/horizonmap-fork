@@ -1,6 +1,7 @@
 .App {
+  position: relative;
   display: flex;
-    height: 100vh;
-    flex-direction: column;
-    flex-wrap: nowrap;
+  height: 100vh;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }

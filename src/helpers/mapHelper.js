@@ -30,17 +30,20 @@ function latLngBoundsToPixel(bounds, zoom, map) {
 }
 
 function pixelBoundsToTileCoords(pixelBounds) {
-    const { north, south, east, west } = pixelBounds;
+    const north = Math.floor(pixelBounds.north);
+    const south = Math.ceil(pixelBounds.south);
+    const east = Math.ceil(pixelBounds.east);
+    const west = Math.floor(pixelBounds.west);
 
     return {
         northTile: Math.floor(north / Constants.heightmap.tileSize),
-        northY: north % Constants.heightmap.tileSize,
+        northY: ((north % Constants.heightmap.tileSize) + Constants.heightmap.tileSize) % Constants.heightmap.tileSize,
         southTile: Math.floor(south / Constants.heightmap.tileSize),
-        southY: south % Constants.heightmap.tileSize,
+        southY: ((south % Constants.heightmap.tileSize) + Constants.heightmap.tileSize) % Constants.heightmap.tileSize,
         eastTile: Math.floor(east / Constants.heightmap.tileSize),
-        eastX: east % Constants.heightmap.tileSize,
+        eastX: ((east % Constants.heightmap.tileSize) + Constants.heightmap.tileSize) % Constants.heightmap.tileSize,
         westTile: Math.floor(west / Constants.heightmap.tileSize),
-        westX: west % Constants.heightmap.tileSize,
+        westX: ((west % Constants.heightmap.tileSize) + Constants.heightmap.tileSize) % Constants.heightmap.tileSize,
     };
 }
 

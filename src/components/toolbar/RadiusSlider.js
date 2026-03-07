@@ -8,13 +8,14 @@ export default function RadiusSlider() {
 
     return (
         <CustomSlider
-            displayName='Radius'
+            displayName='범위'
             className='radius-slider'
             suffix=' km'
             value={radius}
             setValue={setRadius}
-            min={Constants.horizon.minRadius}
-            max={Constants.horizon.maxRadius}
+            min={Constants.marker.minRadius}
+            max={Constants.marker.maxRadius}
+            step={Constants.marker.radiusStep}
             disabled={inProgress !== 0}
         />
     );

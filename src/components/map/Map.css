@@ -1,3 +1,72 @@
 .map {
     flex-grow: 1;
+    position: relative;
   }
+
+/* Leaflet tooltip for cursor elevation */
+.leaflet-tooltip.mouse-elevation-tooltip {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 4px 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  color: #111;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.los-dot-icon {
+  background: transparent;
+  border: none;
+}
+
+.leaflet-tooltip.mouse-elevation-tooltip b {
+  font-size: 13px;
+}
+
+.heatmap-legend {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 1000;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  padding: 8px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  min-width: 180px;
+}
+
+.heatmap-legend-title {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.heatmap-legend-gradient {
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgb(49,54,149) 0%, rgb(69,117,180) 16%, rgb(116,173,209) 33%, rgb(171,217,233) 50%, rgb(255,255,191) 63%, rgb(253,174,97) 76%, rgb(244,109,67) 88%, rgb(165,0,38) 100%);
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.heatmap-legend-scale {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  margin-top: 6px;
+}
+
+.heatmap-legend-source {
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: #4b5563;
+}
+
+.mouse-elevation-tooltip-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #334155;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}

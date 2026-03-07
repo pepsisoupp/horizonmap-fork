@@ -54,7 +54,9 @@ async function processTiles(combinedTiles, heightOffset, rays, radius, includeCu
             varying vec2 uv;
 
             float colorToHeight(vec4 color) {
-                return (color.r * 65536.0 + color.g * 256.0 + color.b) - 32768.0;
+                ${Constants.heightmap.source === 'mapbox'
+                    ? 'return -10000.0 + ((color.r * 255.0 * 256.0 * 256.0 + color.g * 255.0 * 256.0 + color.b * 255.0) * 0.1);'
+                    : 'return (color.r * 255.0 * 256.0 + color.g * 255.0 + color.b) - 32768.0;'}
             }
 
             vec4 angleToColor(float angle) {

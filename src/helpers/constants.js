@@ -1,8 +1,29 @@
 const Constants = {
-    startPos: [50.06, 19.93],
-    startZoom: 10,
+    startPos: [36.0, 127.8],
+    startZoom: 7,
+    basemap: {
+        default: 'osm',
+        options: {
+            osm: {
+                label: 'OpenStreetMap',
+                url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                subdomains: ['a', 'b', 'c'],
+                maxNativeZoom: 19,
+                maxZoom: 22,
+            },
+            googleHybrid: {
+                label: 'Google Hybrid',
+                url: 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+                attribution: '&copy; Google',
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                maxNativeZoom: 20,
+                maxZoom: 22,
+            },
+        },
+    },
     marker: {
-        startPos: {lat: 50.0617, lng: 19.9377},
+        startPos: {lat: 36.0, lng: 127.8},
         minRadius: 10,
         maxRadius: 50,
         defaultRadius: 10,
@@ -15,6 +36,8 @@ const Constants = {
         displayPosition: false,
     },
     heightmap: {
+        source: 'terrarium',
+        sourceLabel: 'Terrarium',
         url: (x, y, z) => `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${x}/${y}.png`,
         tileSize: 256,
         minZoom: 10,
@@ -31,6 +54,23 @@ const Constants = {
         defaultHeightOffset: 2,
         overlayAlpha: 0.7,
         defaultIncludeCurvature: true,
+    },
+    heatmap: {
+        defaultShow: true,
+        defaultOpacity: 0.45,
+        minOpacity: 0.1,
+        maxOpacity: 0.9,
+        opacityStep: 0.05,
+    },
+    los: {
+        defaultAntennaA: 1,
+        defaultAntennaB: 1,
+        minAntenna: 0,
+        maxAntenna: 200,
+        antennaStep: 0.5,
+        minSampleStep: 30,
+        maxSampleStep: 250,
+        boundsPadMeters: 1500,
     }
 };
 

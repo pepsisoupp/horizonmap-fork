@@ -3,16 +3,31 @@ import MainContext from "../../contexts/MainContext";
 import Heightmap from "../../helpers/heightmap";
 import MapHelper from "../../helpers/mapHelper";
 import Horizon from "../../helpers/horizon";
+import Heatmap from "../../helpers/heatmap";
 
 const createWorker = () => new Worker(new URL("../../workers/horizonWorker.js", import.meta.url), { type: "module" });
 
 export default function HorizonManager() {
-    const { map, markerPos, radius, setHorizonData, heightmapZoom, heightOffset, rays, includeCurvature, setInProgress } = useContext(MainContext);
+    const {
+        mode,
+        map,
+        markerPos,
+        radius,
+        setHorizonData,
+        setHeatmapData,
+        heatmapOpacity,
+        heightmapZoom,
+        heightOffset,
+        rays,
+        includeCurvature,
+        setInProgress,
+        setHeightmapInfo,
+    } = useContext(MainContext);
     const horizonWorkerRef = useRef(null);
     const [firstStageData, setFirstStageData] = useState(null);
 
     const safeSetInProgress = useCallback((stage) => {
-        if(stage <= 0) return setInProgress(stage);
+        if (stage <= 0) return setInProgress(stage);
 
         let alreadyInProgress = false;
         setInProgress((old) => {
@@ -24,6 +39,7 @@ export default function HorizonManager() {
 
     const loadHeightmaps = useCallback(async () => {
         if (!map) return;
+        if (mode !== 'horizon') return;
         if (safeSetInProgress(1)) return;
 
         const circleBounds = MapHelper.getCircleBounds(markerPos.lat, markerPos.lng, radius);
@@ -32,11 +48,27 @@ export default function HorizonManager() {
         const tiles = await Heightmap.loadTilesInBounds(tileBounds, heightmapZoom);
         const combinedTiles = Heightmap.combineTiles(tiles, tileBounds);
 
+        setHeightmapInfo({
+            imageData: combinedTiles,
+            circleBounds,
+            pixelBounds,
+            zoom: heightmapZoom,
+        });
+
+        const { canvas, stats } = Heatmap.buildHeatmapCanvas(combinedTiles, heatmapOpacity);
+        setHeatmapData({
+            dataUrl: Heatmap.getDataUrlFromCanvas(canvas),
+            circleBounds,
+            minElevation: Math.round(stats.min),
+            maxElevation: Math.round(stats.max),
+        });
+
         setFirstStageData({ combinedTiles, circleBounds, radius });
-    }, [map, markerPos, radius, heightmapZoom, setFirstStageData, safeSetInProgress]);
+    }, [map, mode, markerPos, radius, heightmapZoom, heatmapOpacity, safeSetInProgress, setHeightmapInfo, setHeatmapData]);
 
     const generateHorizon = useCallback(() => {
         if (!firstStageData || !firstStageData.combinedTiles) return;
+        if (mode !== 'horizon') return;
         if (safeSetInProgress(2)) return;
 
         if (!horizonWorkerRef.current) {
@@ -56,9 +88,9 @@ export default function HorizonManager() {
             heightOffset,
             rays,
             radius: firstStageData.radius,
-            includeCurvature
+            includeCurvature,
         });
-    }, [firstStageData, heightOffset, rays, includeCurvature, setHorizonData, safeSetInProgress]);
+    }, [firstStageData, mode, heightOffset, rays, includeCurvature, setHorizonData, safeSetInProgress]);
 
     useEffect(() => {
         loadHeightmaps();

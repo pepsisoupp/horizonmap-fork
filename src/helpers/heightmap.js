@@ -54,13 +54,16 @@ function combineTiles(tiles, tileBounds) {
         Math.ceil(croppedWidth),
         Math.ceil(croppedHeight)
     );
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (ctx) {
+        ctx.imageSmoothingEnabled = false;
+    }
 
     for(const tile of tiles) {
         if(!tile.image) continue;
 
-        const x = (tile.x - tileBounds.westTile) * Constants.heightmap.tileSize - tileBounds.westX;
-        const y = (tile.y - tileBounds.northTile) * Constants.heightmap.tileSize - tileBounds.northY;
+        const x = Math.round((tile.x - tileBounds.westTile) * Constants.heightmap.tileSize - tileBounds.westX);
+        const y = Math.round((tile.y - tileBounds.northTile) * Constants.heightmap.tileSize - tileBounds.northY);
         ctx.drawImage(tile.image, x, y);
     }
 

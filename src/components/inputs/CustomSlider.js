@@ -10,7 +10,7 @@ export default function CustomSlider(props) {
 
     const handleInputEnd = useCallback(() => {
         if(disabled) return;
-        setValue(inputValue);
+        setValue(Number(inputValue));
     }, [setValue, inputValue, disabled]);
 
     const handleKeyDown = useCallback((e) => {

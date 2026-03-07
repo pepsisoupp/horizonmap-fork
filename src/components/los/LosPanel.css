@@ -1,0 +1,76 @@
+.losPanel {
+  position: absolute;
+  top: 56px;
+  right: 12px;
+  width: min(620px, calc(100vw - 24px));
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  overflow: hidden;
+  z-index: 600;
+}
+
+.losPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+  font-weight: 600;
+}
+
+.losPanelBody {
+  padding: 10px 12px 12px;
+}
+
+.losRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.losControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.losControl input {
+  width: 96px;
+}
+
+.losHint {
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(0,0,0,0.65);
+}
+
+
+.losRowTriple {
+  grid-template-columns: 1fr 1fr 1.4fr;
+}
+
+.losFreqGroup {
+  display: grid;
+  grid-template-columns: 1fr 92px;
+  gap: 6px;
+  width: 100%;
+}
+
+.losFreqGroup select,
+.losFreqGroup input {
+  width: 100%;
+}
+
+.losStats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.72);
+}

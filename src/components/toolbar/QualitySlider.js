@@ -8,7 +8,7 @@ export default function QualitySlider() {
 
     return (
         <CustomSlider
-            displayName='Heightmap quality'
+            displayName='고도 데이터 품질'
             className='quality-slider'
             value={heightmapZoom}
             setValue={setHeightmapZoom}
