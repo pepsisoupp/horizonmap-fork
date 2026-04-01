@@ -28,10 +28,10 @@ export default function Toolbar({ open, onClose }) {
             <aside className={`toolbar-panel ${open ? 'open' : ''}`}>
                 <div className='toolbar-panel-header'>
                     <div>
-                        <div className='toolbar-panel-title'>Menu</div>
-                        <div className='toolbar-panel-subtitle'>Map, analysis and RF controls</div>
+                        <div className='toolbar-panel-title'>메뉴</div>
+                        <div className='toolbar-panel-subtitle'><a href="https://github.com/pepsisoupp">https://github.com/pepsisoupp</a></div>
                     </div>
-                    <button type='button' className='toolbar-close' onClick={onClose}>×</button>
+                    
                 </div>
                 {!map && <div className='toolbar-loading'>Loading map…</div>}
                 {map && <div className='toolbar'>
