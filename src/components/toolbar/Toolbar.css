@@ -189,6 +189,7 @@
   padding: 0 10px;
   font-size: 12px;
   box-sizing: border-box;
+  width: 80px;
 }
 
 .toolbar-input-wide {
@@ -273,7 +274,7 @@
 
   .toolbar-grid-2,
   .toolbar-metrics {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .topbar-subtitle {
