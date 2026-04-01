@@ -1,6 +1,7 @@
-import { useContext, useMemo, useRef } from "react";
+import { useContext, useMemo, useRef, useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import mouseWheelZoom from 'highcharts/modules/mouse-wheel-zoom';
 import MainContext from "../../contexts/MainContext";
 import Constants from "../../helpers/constants";
 import {
@@ -11,6 +12,9 @@ import {
   wavelengthMeters,
 } from "../../helpers/los";
 import "./LosPanel.css";
+import { type } from "@testing-library/user-event/dist/type";
+//highchart 마우스 줌 초기화
+
 
 function metersToKm(m) {
   return m / 1000;
@@ -46,6 +50,9 @@ export default function LosPanel() {
   } = useContext(MainContext);
 
   const chartRef = useRef(null);
+
+  const [open, setOpen] = useState(window.innerWidth > 768);
+
 
   const chartData = useMemo(() => {
     if (!losProfile?.profile?.length || !losA || !losB) return null;
@@ -128,10 +135,25 @@ export default function LosPanel() {
       setLosSelectedIndex(idx);
     };
 
+    
+
     return {
       chart: {
-        height: 360,
-        animation: false,
+        height: 390,
+        animation: true,
+       zooming: {
+            mouseWheel: {
+              enabled: true,
+              type: 'xy',
+              showResetButton: 'true'
+            },
+            type: 'xy'
+        },
+        panning: {
+            enabled: true,
+            type: 'xy'
+        },
+        panKey: 'shift'
       },
       title: { text: '지형 분석 결과' },
       subtitle: {
@@ -153,9 +175,9 @@ export default function LosPanel() {
           const elev = p ? p.elev : null;
           const fresnel = p ? fresnelRadiusMeters(losFrequencyMHz || 0, p.dist, chartData.totalMeters - p.dist) : null;
           return [
-            `Distance: ${this.x.toFixed(2)} km`,
-            `Terrain: ${elev?.toFixed?.(1) ?? '-'} m`,
-            `Fresnel r1: ${fresnel?.toFixed?.(1) ?? '-'} m`,
+            `거리: ${this.x.toFixed(2)} km`,
+            `고도: ${elev?.toFixed?.(1) ?? '-'} m`,
+            `프레스넬 반지름: ${fresnel?.toFixed?.(1) ?? '-'} m`,
           ].join('<br/>');
         },
       },
@@ -181,7 +203,7 @@ export default function LosPanel() {
       series: [
         {
           type: 'area',
-          name: '지형',
+          name: 'Terrain',
           data: chartData.area,
           color: 'rgba(120,120,120,0.55)',
           lineColor: 'rgba(80,80,80,0.9)',
@@ -215,7 +237,7 @@ export default function LosPanel() {
         },
         {
           type: 'line',
-          name: '프레스넬 60% 이하',
+          name: '프레스넬 60%',
           data: chartData.fresnel60Lower,
           color: 'rgba(214,158,46,0.9)',
           lineWidth: 1.5,
@@ -230,20 +252,46 @@ export default function LosPanel() {
 
   if (mode !== 'los') return null;
   if (!losA || !losB) {
-    return (
-      <div className="losPanel">
-        <div className="losPanelHeader">LoS</div>
-        <div className="losPanelBody">
-          지도에서 지점 A,B를 배치하세요.(Shift+클릭 = A 지점 변경)
-        </div>
+  return (
+    <>
+      <button
+        className="losToggleBtn"
+        onClick={() => setOpen(!open)}
+      >
+        LOS
+      </button>
+
+      <div className={`losPanel ${open ? "open" : ""}`}>
+        {!losA || !losB ? (
+          <>
+            <div className="losPanelHeader">LoS</div>
+            <div className="losPanelBody">
+              지도에서 지점 A,B를 배치하세요.(Shift+클릭 = A 지점 변경)
+            </div>
+          </>
+        ) : !options ? null : (
+          <>
+            <div className="losPanelHeader">지형 데이터</div>
+            <div className="losPanelBody">
+              {/* 기존 내용 그대로 */}
+            </div>
+          </>
+        )}
       </div>
-    );
-  }
+    </>
+  );
+}
 
   if (!options) return null;
 
   return (
-    <div className="losPanel">
+    <>
+    <button className="losToggleBtn" onClick={() => setOpen(!open)}>
+        📡
+      </button>
+
+      <div className={`losPanel ${open ? "open" : ""}`}>
+
       <div className="losPanelHeader">지형 데이터</div>
       <div className="losPanelBody">
         <HighchartsReact highcharts={Highcharts} options={options} ref={chartRef} />
@@ -290,9 +338,13 @@ export default function LosPanel() {
           <span>상태: {chartData.status}</span>
         </div>
         <div className="losHint">
-          그래프 위에 마우스를 올리면 지도에 위치가 표시됩니다. 그래프를 클릭하면 해당 지점에 빨간 핀이 고정됩니다.
+          그래프 위에 마우스를 올리면 지도에 위치가 표시됩니다.<br></br>
+          그래프를 클릭하면 해당 지점에 빨간 핀이 고정됩니다.<br></br>
+          마우스 휠로 그래프를 확대 할 수 있습니다.<br></br>
+          시프트를 누른 상태로 그래프를 드래그 할 수 있습니다
         </div>
       </div>
     </div>
+    </>
   );
 }
